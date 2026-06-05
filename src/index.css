@@ -1,0 +1,108 @@
+/* =========================================================
+   Minor overrides — Backstrap handles everything else
+   ========================================================= */
+
+/* Ensure app fills viewport */
+html, body, #root {
+  height: 100%;
+}
+
+.c-app {
+  min-height: 100vh;
+}
+
+/* Sidebar active link highlight */
+.c-sidebar .c-sidebar-nav-link.active,
+.c-sidebar .c-sidebar-nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* Sidebar nav link icon color */
+.c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.c-sidebar .c-sidebar-nav-link.active .c-sidebar-nav-icon {
+  color: #fff;
+}
+
+/* Table action buttons spacing */
+.table .btn + .btn {
+  margin-left: 4px;
+}
+
+/* Sort button cursor */
+.sort-btn {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sort-btn:hover {
+  opacity: 0.8;
+}
+
+/* Badge for gender */
+.badge-gender-l {
+  background-color: #467FD0;
+  color: #fff;
+}
+
+.badge-gender-p {
+  background-color: #e83e8c;
+  color: #fff;
+}
+
+/* Form validation feedback */
+.invalid-feedback {
+  display: block;
+}
+
+/* Empty state */
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: #73818f;
+}
+
+.empty-state i {
+  font-size: 48px;
+  opacity: 0.3;
+  margin-bottom: 12px;
+}
+
+/* Smooth page transitions */
+.c-main {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal backdrop */
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive table on mobile */
+@media (max-width: 767px) {
+  .c-sidebar {
+    margin-left: -256px;
+    transition: margin-left 0.3s;
+  }
+  .c-sidebar.show {
+    margin-left: 0;
+  }
+  .c-wrapper {
+    margin-left: 0 !important;
+  }
+}
