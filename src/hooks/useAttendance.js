@@ -1,3 +1,4 @@
+// Pusat pengelolaan state, CRUD, statistik, filter, sorting, dan pagination absensi.
 import { useState, useEffect, useCallback } from 'react'
 import * as storage from '../utils/storage'
 import { generateId, sortData } from '../utils/helpers'
@@ -5,6 +6,7 @@ import { generateId, sortData } from '../utils/helpers'
 const ITEMS_PER_PAGE = 10
 const DEFAULT_CHECK_IN = '08:00'
 
+// Menghasilkan tanggal lokal agar statistik hari ini tidak bergeser karena UTC.
 const getLocalDate = () => {
   const now = new Date()
   const offset = now.getTimezoneOffset() * 60000
@@ -25,7 +27,7 @@ export function useAttendance() {
   const [genderFilter, setGenderFilter] = useState('')
   const [dateFilter, setDateFilter] = useState('')
 
-  /* ------ bootstrap data ------ */
+  // Menyiapkan data contoh saat penyimpanan kosong, lalu memuat seluruh data.
   useEffect(() => {
     storage.seed()
     setRecords(storage.getAll())
@@ -35,7 +37,7 @@ export function useAttendance() {
     setRecords(storage.getAll())
   }, [])
 
-  /* ------ CRUD ------ */
+  // Operasi CRUD selalu diikuti refresh agar state sesuai dengan localStorage.
   const create = useCallback((formData) => {
     const record = {
       ...formData,
@@ -57,11 +59,10 @@ export function useAttendance() {
   const remove = useCallback((id) => {
     storage.remove(id)
     refresh()
-    // stay on current page unless it becomes empty
     setCurrentPage((prev) => prev)
   }, [refresh])
 
-  /* ------ Sort ------ */
+  // Klik kolom yang sama membalik arah urutan; kolom baru dimulai dari ascending.
   const handleSort = useCallback((key) => {
     setSortConfig((prev) => ({
       key,
@@ -70,7 +71,7 @@ export function useAttendance() {
     setCurrentPage(1)
   }, [])
 
-  /* ------ Derived data pipeline ------ */
+  // Data list diproses berurutan: pencarian/filter, sorting, lalu pagination.
   const filtered = records.filter((r) => {
     const q = search.trim().toLowerCase()
     const matchesSearch = !q || (
@@ -87,6 +88,8 @@ export function useAttendance() {
   })
 
   const sorted = sortData(filtered, sortConfig)
+
+  // Statistik memakai seluruh record agar tidak terpengaruh filter pada tabel.
   const todayRecords = records.filter((record) => record.tanggal_absen === getLocalDate())
   const statistics = {
     presentToday: todayRecords.length,
@@ -99,7 +102,7 @@ export function useAttendance() {
   const totalItems = sorted.length
   const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE))
 
-  // guard page out of bounds after delete/search
+  // Menjaga halaman aktif tetap valid setelah data dicari atau dihapus.
   const safePage = Math.min(currentPage, totalPages)
 
   const paginated = sorted.slice(
@@ -111,20 +114,16 @@ export function useAttendance() {
   const endIndex = Math.min(safePage * ITEMS_PER_PAGE, totalItems)
 
   return {
-    /* data */
     records: paginated,
     totalItems,
     totalRecords: records.length,
     startIndex,
     endIndex,
     statistics,
-    /* sort */
     sortConfig,
     handleSort,
-    /* search */
     search,
     setSearch: (val) => { setSearch(val); setCurrentPage(1) },
-    /* gender filter */
     genderFilter,
     setGenderFilter: (val) => { setGenderFilter(val); setCurrentPage(1) },
     dateFilter,
@@ -134,7 +133,6 @@ export function useAttendance() {
       setDateFilter('')
       setCurrentPage(1)
     },
-    /* sort controls */
     setSortKey: (key) => {
       setSortConfig((prev) => ({ ...prev, key }))
       setCurrentPage(1)
@@ -143,11 +141,9 @@ export function useAttendance() {
       setSortConfig((prev) => ({ ...prev, direction }))
       setCurrentPage(1)
     },
-    /* pagination */
     currentPage: safePage,
     totalPages,
     setCurrentPage,
-    /* CRUD */
     create,
     update,
     remove,

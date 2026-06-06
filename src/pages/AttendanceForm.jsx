@@ -1,3 +1,4 @@
+// Halaman form reusable untuk menambahkan dan mengedit data absensi.
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAttendance } from '../hooks/useAttendance'
@@ -25,7 +26,7 @@ export default function AttendanceForm() {
   const [submitting, setSubmitting] = useState(false)
   const [notFound, setNotFound] = useState(false)
 
-  /* ------ Load existing record when editing ------ */
+  // Pada mode edit, isi form diambil dari record sesuai ID pada URL.
   useEffect(() => {
     if (!isEdit) return
 
@@ -47,11 +48,10 @@ export default function AttendanceForm() {
     setLoading(false)
   }, [id, isEdit, getById])
 
-  /* ------ Field change handler ------ */
+  // Memperbarui nilai input sekaligus membersihkan error field yang sedang diedit.
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear field error on change
     if (errors[name]) {
       setErrors((prev) => {
         const next = { ...prev }
@@ -61,14 +61,13 @@ export default function AttendanceForm() {
     }
   }
 
-  /* ------ Submit ------ */
+  // Validasi form sebelum membuat record baru atau menyimpan perubahan.
   const handleSubmit = (e) => {
     e.preventDefault()
 
     const validationErrors = validateForm(formData)
     if (!isValid(validationErrors)) {
       setErrors(validationErrors)
-      // Scroll to first error
       const firstErrorEl = document.querySelector('.is-invalid')
       if (firstErrorEl) firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
@@ -95,7 +94,7 @@ export default function AttendanceForm() {
     })
   }
 
-  /* ------ Field helper ------ */
+  // Menyatukan properti yang digunakan berulang oleh setiap input form.
   const field = (name) => ({
     id: name,
     name,
@@ -104,7 +103,6 @@ export default function AttendanceForm() {
     className: `form-control${errors[name] ? ' is-invalid' : ''}`,
   })
 
-  /* ------ Guards ------ */
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 200 }}>
@@ -131,7 +129,6 @@ export default function AttendanceForm() {
     )
   }
 
-  /* ------ Main form ------ */
   return (
     <div className="row">
       <div className="col-lg-8 col-xl-7">
@@ -150,7 +147,6 @@ export default function AttendanceForm() {
           <div className="card-body">
             <form onSubmit={handleSubmit} noValidate>
 
-              {/* Nama */}
               <div className="form-group">
                 <label htmlFor="nama">
                   Nama Karyawan <span className="text-danger">*</span>
@@ -166,7 +162,6 @@ export default function AttendanceForm() {
                 )}
               </div>
 
-              {/* Alamat */}
               <div className="form-group">
                 <label htmlFor="alamat">
                   Alamat <span className="text-danger">*</span>
@@ -181,7 +176,6 @@ export default function AttendanceForm() {
                 )}
               </div>
 
-              {/* Jenis Kelamin */}
               <div className="form-group">
                 <label htmlFor="jenis_kelamin">
                   Jenis Kelamin <span className="text-danger">*</span>
@@ -196,7 +190,6 @@ export default function AttendanceForm() {
                 )}
               </div>
 
-              {/* Tanggal Absen */}
               <div className="form-group">
                 <label htmlFor="tanggal_absen">
                   Tanggal Absen <span className="text-danger">*</span>
@@ -210,7 +203,6 @@ export default function AttendanceForm() {
                 )}
               </div>
 
-              {/* Jam Masuk & Keluar in a row */}
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="jam_masuk">
@@ -239,7 +231,6 @@ export default function AttendanceForm() {
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="d-flex" style={{ gap: 8, marginTop: 8 }}>
                 <button
                   type="submit"
@@ -265,7 +256,6 @@ export default function AttendanceForm() {
           </div>
         </div>
 
-        {/* Helper info */}
         <div className="text-muted mt-2 mb-4" style={{ fontSize: 12 }}>
           <span className="text-danger">*</span> Semua field wajib diisi
         </div>

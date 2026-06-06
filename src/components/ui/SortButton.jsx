@@ -1,3 +1,4 @@
+// Kontrol sorting pada header tabel yang menunjukkan field dan arah urutan aktif.
 export default function SortButton({ label, sortKey, sortConfig, onSort }) {
   const isActive = sortConfig.key === sortKey
   const icon = isActive

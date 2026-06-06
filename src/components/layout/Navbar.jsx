@@ -1,3 +1,4 @@
+// Navbar menampilkan informasi halaman aktif dan kontrol sidebar pada layar kecil.
 import { useLocation } from 'react-router-dom'
 
 const PAGE_INFO = {
@@ -12,6 +13,7 @@ const PAGE_INFO = {
 }
 
 function getPageInfo(pathname) {
+  // Route edit bersifat dinamis sehingga tidak dapat dipetakan langsung di PAGE_INFO.
   if (pathname.includes('/attendance/edit/')) {
     return {
       eyebrow: 'Form Absensi',

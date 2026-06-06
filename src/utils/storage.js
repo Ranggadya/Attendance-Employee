@@ -1,6 +1,7 @@
+// Abstraksi localStorage yang menangani penyimpanan dan CRUD data absensi.
 const STORAGE_KEY = 'attendance_records'
 
-/* ---------- helpers ---------- */
+// Pembacaan dibuat aman agar aplikasi tetap berjalan saat data tersimpan rusak.
 const read = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -14,14 +15,13 @@ const write = (data) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-/* ---------- CRUD ---------- */
 export const getAll = () => read()
 
 export const getById = (id) => read().find((r) => r.id === id) ?? null
 
 export const save = (record) => {
   const all = read()
-  all.unshift(record)          // newest first
+  all.unshift(record)
   write(all)
   return record
 }
@@ -39,7 +39,7 @@ export const remove = (id) => {
   write(read().filter((r) => r.id !== id))
 }
 
-/* ---------- seed (dev sample data) ---------- */
+// Mengisi data contoh satu kali saat localStorage belum memiliki record.
 export const seed = () => {
   if (read().length > 0) return
 

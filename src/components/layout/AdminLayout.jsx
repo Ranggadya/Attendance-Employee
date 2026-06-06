@@ -1,3 +1,4 @@
+// Kerangka utama admin yang menyatukan navbar, sidebar, konten halaman, dan footer.
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
@@ -6,6 +7,7 @@ import Navbar from './Navbar'
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  // Outlet merender halaman aktif di dalam layout admin yang sama.
   return (
     <div className={`app sidebar-lg-show${sidebarOpen ? ' sidebar-show' : ''}`}>
       <div className="app-layout">

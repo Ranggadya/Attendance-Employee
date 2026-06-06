@@ -1,3 +1,4 @@
+// Modal konfirmasi reusable untuk mencegah penghapusan data secara tidak sengaja.
 export default function ConfirmModal({ isOpen, title, message, onConfirm, onCancel }) {
   if (!isOpen) return null
 

@@ -1,3 +1,4 @@
+// Sidebar menyediakan navigasi utama untuk halaman list dan form absensi.
 import { NavLink, useLocation } from 'react-router-dom'
 
 const ICON_SIZE = { width: 20, height: 20 }

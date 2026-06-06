@@ -1,8 +1,8 @@
-/* ---------- ID ---------- */
+// Kumpulan fungsi umum untuk ID, formatting, validasi form, dan sorting data.
+// Membuat ID unik sederhana untuk record yang disimpan secara lokal.
 export const generateId = () =>
   'att_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
 
-/* ---------- Formatting ---------- */
 export const formatDate = (dateStr) => {
   if (!dateStr) return '-'
   const [y, m, d] = dateStr.split('-')
@@ -11,7 +11,7 @@ export const formatDate = (dateStr) => {
 
 export const formatTime = (timeStr) => timeStr || '-'
 
-/* ---------- Form Validation ---------- */
+// Memvalidasi seluruh aturan form dan mengembalikan pesan error per field.
 export const validateForm = (data) => {
   const errors = {}
 
@@ -48,7 +48,7 @@ export const validateForm = (data) => {
 
 export const isValid = (errors) => Object.keys(errors).length === 0
 
-/* ---------- Sorting ---------- */
+// Mengurutkan salinan data agar array sumber tidak ikut berubah.
 export const sortData = (data, { key, direction }) => {
   if (!key) return data
   return [...data].sort((a, b) => {

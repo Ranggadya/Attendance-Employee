@@ -1,3 +1,4 @@
+// Komponen navigasi halaman untuk menampilkan data list secara bertahap.
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   if (totalPages <= 1) return null
 
@@ -6,7 +7,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   return (
     <nav aria-label="Pagination">
       <ul className="pagination mb-0">
-        {/* Prev */}
         <li className={`page-item${currentPage === 1 ? ' disabled' : ''}`}>
           <button
             className="page-link"
@@ -18,7 +18,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           </button>
         </li>
 
-        {/* Page numbers */}
         {pages.map((p, i) =>
           p === '...' ? (
             <li key={`ellipsis-${i}`} className="page-item disabled">
@@ -39,7 +38,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           )
         )}
 
-        {/* Next */}
         <li className={`page-item${currentPage === totalPages ? ' disabled' : ''}`}>
           <button
             className="page-link"
@@ -55,7 +53,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   )
 }
 
-/* Build page number array with ellipsis for large page counts */
+// Membatasi nomor halaman yang tampil dan menyisipkan elipsis pada daftar panjang.
 function buildPages(current, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
 

@@ -1,3 +1,4 @@
+// Halaman utama untuk melihat statistik dan mengelola daftar data absensi.
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAttendance } from '../hooks/useAttendance'
@@ -26,6 +27,7 @@ export default function AttendanceList() {
   const hasFilters = Boolean(genderFilter || dateFilter)
   const hasQuery = Boolean(search || hasFilters)
 
+  // Menutup popover filter saat pengguna klik di luar area atau menekan Escape.
   useEffect(() => {
     if (!filterOpen) return
 
@@ -47,11 +49,11 @@ export default function AttendanceList() {
     }
   }, [filterOpen])
 
-  /* ------ Handlers ------ */
   const handleDeleteClick = (record) => {
     setDeleteTarget(record)
   }
 
+  // Menghapus record setelah pengguna menyetujui modal konfirmasi.
   const handleDeleteConfirm = () => {
     if (!deleteTarget) return
     remove(deleteTarget.id)
@@ -59,22 +61,22 @@ export default function AttendanceList() {
     showToast('success', `Data absensi "${deleteTarget.nama}" berhasil dihapus.`)
   }
 
+  // Menampilkan notifikasi sementara setelah sebuah aksi berhasil.
   const showToast = (type, message) => {
     setToast({ type, message })
     setTimeout(() => setToast(null), 3500)
   }
 
+  // Value dropdown membawa nama field dan arah urutan dalam satu pilihan.
   const handleSortOption = (value) => {
     const [key, direction] = value.split(':')
     setSortKey(key)
     setSortDirection(direction)
   }
 
-  /* ------ Render ------ */
   return (
     <div className="fade-in">
 
-      {/* Toast notification */}
       {toast && (
         <div
           className={`alert alert-${toast.type} alert-dismissible`}
@@ -140,7 +142,6 @@ export default function AttendanceList() {
         </article>
       </section>
 
-      {/* Page header card */}
       <div className="card mb-4">
         <div className="card-header d-flex align-items-center justify-content-between flex-wrap" style={{ gap: 8 }}>
           <div>
@@ -156,7 +157,6 @@ export default function AttendanceList() {
         </div>
 
         <div className="card-body">
-          {/* Search and sort controls */}
           <div className="attendance-toolbar mb-3">
             <div className="attendance-search">
               <div className="input-group">
@@ -256,7 +256,6 @@ export default function AttendanceList() {
             )}
           </div>
 
-          {/* Table */}
           <div className="table-responsive">
             <table className="table table-bordered table-striped table-hover mb-0">
               <thead className="thead-light">
@@ -362,7 +361,6 @@ export default function AttendanceList() {
             </table>
           </div>
 
-          {/* Footer: info + pagination */}
           {records.length > 0 && (
             <div className="d-flex align-items-center justify-content-between flex-wrap mt-3" style={{ gap: 12 }}>
               <small className="text-muted">
@@ -378,7 +376,6 @@ export default function AttendanceList() {
         </div>
       </div>
 
-      {/* Delete confirmation modal */}
       <ConfirmModal
         isOpen={!!deleteTarget}
         title="Konfirmasi Hapus"
