@@ -7,38 +7,44 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="c-app c-default-layout">
-      <Sidebar
-        show={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
-
-      <div className="c-wrapper">
+    <div className={`app sidebar-lg-show${sidebarOpen ? ' sidebar-show' : ''}`}>
+      <div className="app-layout">
         <Navbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
 
-        <div className="c-body">
-          <main className="c-main">
+        <div className="app-body">
+          <Sidebar
+            onClose={() => setSidebarOpen(false)}
+          />
+
+          <main
+            className="main"
+            onClick={sidebarOpen ? () => setSidebarOpen(false) : undefined}
+          >
             <div className="container-fluid">
               <Outlet />
             </div>
           </main>
         </div>
 
-        <footer className="c-footer">
-          <div>
-            <span>Employee Attendance Admin Panel &copy; 2026</span>
+        <footer className="app-footer">
+          <div className="footer-brand">
+            <span className="footer-status" aria-hidden="true" />
+            <span>
+              <strong>Employee Attendance</strong>
+              <small>Admin Panel</small>
+            </span>
           </div>
-          <div className="ml-auto">
-            Powered by{' '}
+          <div className="footer-meta">
+            <span>&copy; 2026</span>
+            <span className="footer-separator">|</span>
+            <span>Built with React + </span>
             <a
               href="https://backstrap.net"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#467FD0' }}
             >
               Backstrap
             </a>
-            {' '}+ React
           </div>
         </footer>
       </div>
